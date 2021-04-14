@@ -7,10 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6516736126273787004B5D3F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6516736026273787004B5D3F /* LoginViewController.swift */; };
+		651673662627383F004B5D3F /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651673632627383F004B5D3F /* DataService.swift */; };
+		651673672627383F004B5D3F /* DataServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651673642627383F004B5D3F /* DataServiceProtocol.swift */; };
+		6516736E26273961004B5D3F /* LoginStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6516736B26273960004B5D3F /* LoginStatus.swift */; };
+		6516736F26273961004B5D3F /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6516736A26273960004B5D3F /* Quiz.swift */; };
+		6516737026273961004B5D3F /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6516736C26273961004B5D3F /* Question.swift */; };
+		6516737126273961004B5D3F /* QuizCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6516736D26273961004B5D3F /* QuizCategory.swift */; };
+		6516737726276E6B004B5D3F /* QuizzesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6516737626276E6A004B5D3F /* QuizzesViewController.swift */; };
 		659872252625DA9400875B55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659872242625DA9400875B55 /* AppDelegate.swift */; };
 		659872272625DA9400875B55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659872262625DA9400875B55 /* SceneDelegate.swift */; };
-		659872292625DA9400875B55 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659872282625DA9400875B55 /* ViewController.swift */; };
-		6598722C2625DA9400875B55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6598722A2625DA9400875B55 /* Main.storyboard */; };
 		6598722E2625DA9600875B55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6598722D2625DA9600875B55 /* Assets.xcassets */; };
 		659872312625DA9600875B55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6598722F2625DA9600875B55 /* LaunchScreen.storyboard */; };
 		EBFEF0ED2C13D8EC5F87A863 /* Pods_QuizApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD60EFD01E332E8880E3AB /* Pods_QuizApp.framework */; };
@@ -18,11 +24,17 @@
 
 /* Begin PBXFileReference section */
 		08BD60EFD01E332E8880E3AB /* Pods_QuizApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuizApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6516736026273787004B5D3F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		651673632627383F004B5D3F /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		651673642627383F004B5D3F /* DataServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataServiceProtocol.swift; sourceTree = "<group>"; };
+		6516736A26273960004B5D3F /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
+		6516736B26273960004B5D3F /* LoginStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStatus.swift; sourceTree = "<group>"; };
+		6516736C26273961004B5D3F /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
+		6516736D26273961004B5D3F /* QuizCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizCategory.swift; sourceTree = "<group>"; };
+		6516737626276E6A004B5D3F /* QuizzesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizzesViewController.swift; sourceTree = "<group>"; };
 		659872212625DA9400875B55 /* QuizApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuizApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		659872242625DA9400875B55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		659872262625DA9400875B55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		659872282625DA9400875B55 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		6598722B2625DA9400875B55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6598722D2625DA9600875B55 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		659872302625DA9600875B55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		659872322625DA9600875B55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -48,7 +60,6 @@
 				849440B3D9D66BFE866E5349 /* Pods-QuizApp.debug.xcconfig */,
 				7491A5F30C7056824A0C20B7 /* Pods-QuizApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -75,11 +86,17 @@
 			children = (
 				659872242625DA9400875B55 /* AppDelegate.swift */,
 				659872262625DA9400875B55 /* SceneDelegate.swift */,
-				659872282625DA9400875B55 /* ViewController.swift */,
-				6598722A2625DA9400875B55 /* Main.storyboard */,
+				6516736026273787004B5D3F /* LoginViewController.swift */,
+				6516737626276E6A004B5D3F /* QuizzesViewController.swift */,
 				6598722D2625DA9600875B55 /* Assets.xcassets */,
 				6598722F2625DA9600875B55 /* LaunchScreen.storyboard */,
 				659872322625DA9600875B55 /* Info.plist */,
+				651673632627383F004B5D3F /* DataService.swift */,
+				651673642627383F004B5D3F /* DataServiceProtocol.swift */,
+				6516736B26273960004B5D3F /* LoginStatus.swift */,
+				6516736C26273961004B5D3F /* Question.swift */,
+				6516736A26273960004B5D3F /* Quiz.swift */,
+				6516736D26273961004B5D3F /* QuizCategory.swift */,
 			);
 			path = QuizApp;
 			sourceTree = "<group>";
@@ -152,7 +169,6 @@
 			files = (
 				659872312625DA9600875B55 /* LaunchScreen.storyboard in Resources */,
 				6598722E2625DA9600875B55 /* Assets.xcassets in Resources */,
-				6598722C2625DA9400875B55 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,23 +204,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				659872292625DA9400875B55 /* ViewController.swift in Sources */,
+				651673672627383F004B5D3F /* DataServiceProtocol.swift in Sources */,
+				6516737026273961004B5D3F /* Question.swift in Sources */,
+				6516736E26273961004B5D3F /* LoginStatus.swift in Sources */,
+				6516736F26273961004B5D3F /* Quiz.swift in Sources */,
+				6516737726276E6B004B5D3F /* QuizzesViewController.swift in Sources */,
+				6516736126273787004B5D3F /* LoginViewController.swift in Sources */,
+				6516737126273961004B5D3F /* QuizCategory.swift in Sources */,
 				659872252625DA9400875B55 /* AppDelegate.swift in Sources */,
 				659872272625DA9400875B55 /* SceneDelegate.swift in Sources */,
+				651673662627383F004B5D3F /* DataService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		6598722A2625DA9400875B55 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6598722B2625DA9400875B55 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		6598722F2625DA9600875B55 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
