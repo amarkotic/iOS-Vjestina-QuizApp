@@ -8,40 +8,55 @@
 import UIKit
 
 class QuizzesViewController: UIViewController {
-    let cellIdentifier = "cellId"
+    
+    //fiksni dio
     let quizNameLabel: UILabel = UILabel()
     let getQuizzButton = UIButton()
     
-    let errorLabel: UILabel = UILabel()
-    let errorDescription = "Data can't be reached"
-    let errorDescripton2 = "Please try again"
+    //error stack
+    var errorStack = UIStackView()
+    let errorImageView = UIImageView()
+    let errorTitle = UILabel()
+    let errorDescription1 = UILabel()
+    let errorDescription2 = UILabel()
     var quizzesLoaded: Bool = false
     
-    let funFactLabel : UILabel = UILabel()
-    let funFactDescription:UILabel = UILabel()
-    var bulbImage : UIImage = UIImage()
-    
-    let bulbStackView : UIStackView = UIStackView()
+    //fun fact stack
     let funFactStack : UIStackView = UIStackView()
+    let bulbStackView : UIStackView = UIStackView()
+    var bulbImage : UIImage = UIImage()
+    let funFactLabel : UILabel = UILabel()
+    let funFactDescription: UILabel = UILabel()
     
     var tableView = UITableView()
     
-    var quizzArray = [Quiz]()
+    //array kvizova
+    var quizzArray :[Quiz] = []
     let dService = DataService()
     
+    //array kategorija
+    var uniqueSectionArray = [QuizCategory]()
+    //2-d matrica popunjena s kvizovima sortiranim prema kategorijama
+    var matrix = [[Quiz]]()
+    var colorOfCategory =  [UIColor]()
+    
+    var questionPopUpVC = PopUp()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .purple
+        
+        //add Subviews
         view.addSubview(quizNameLabel)
         view.addSubview(getQuizzButton)
-        view.addSubview(errorLabel)
+        view.addSubview(errorStack)
+        
+        //constraints and atributes of main screen
         loadElements()
-        quizzArray = dService.fetchQuizes()
+        populateMatrix()
         //funkcionalnost
         getQuizzButton.addTarget(self, action: #selector(getQuizzPressed), for: .touchUpInside)
         
-     
         
         
     }
@@ -69,39 +84,87 @@ class QuizzesViewController: UIViewController {
         getQuizzButton.setTitleColor(.purple, for: .normal)
         getQuizzButton.layer.cornerRadius = 20
         
-        //Stack 1
-        errorLabel.translatesAutoresizingMaskIntoConstraints = false
-        errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        errorLabel.topAnchor.constraint(equalTo: getQuizzButton.bottomAnchor, constant :150 ).isActive = true
-        errorLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
-        errorLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        errorLabel.textAlignment = NSTextAlignment.center
-        errorLabel.text = "Error"
         
-    }
+        
+        //
+        errorImageView.image = UIImage(named: "error")
+//        errorImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        errorImageView.contentMode = .scaleAspectFit
+        errorTitle.text = "Error\n"
+        errorTitle.font = UIFont.boldSystemFont(ofSize: 27)
+        errorDescription1.text = "Data can't be reached."
+        errorDescription2.text = "Please try again"
+        
+        
+        
+        
+        //error stack
+        errorStack.translatesAutoresizingMaskIntoConstraints = false
+        errorStack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        errorStack.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        errorStack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
+        errorStack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.35).isActive = true
+        
+        
+        errorStack.distribution  = UIStackView.Distribution.fillProportionally
+        errorStack.alignment = UIStackView.Alignment.center
+        errorStack.spacing   = 0.0
+        errorStack.axis = NSLayoutConstraint.Axis.vertical
+        
 
-    @objc func getQuizzPressed(){
-       
-        errorLabel.removeFromSuperview()
-        if(!quizzesLoaded){
-        loadQuizzes()
-        }
-        quizzesLoaded = true
+        
+        errorStack.addArrangedSubview(errorImageView)
+        errorStack.addArrangedSubview(errorTitle)
+        errorStack.addArrangedSubview(errorDescription1)
+        errorStack.addArrangedSubview(errorDescription2)
+        
+        
+        
     }
     
+    @objc func getQuizzPressed(){
+        
+        errorStack.removeFromSuperview()
+        if(!quizzesLoaded){
+            loadQuizzes()
+        }
+        quizzesLoaded = true
+        
+        
+    }
+    
+    //popuni 2-d tablicu quiz-ovima soriranim prema kategorijama pruženim u DataService-u
+    func populateMatrix(){
+        quizzArray = dService.fetchQuizes()
+        let sections = quizzArray.flatMap{$0.category}
+        uniqueSectionArray = Array(Set(sections))
+        let length = uniqueSectionArray.count
+        //iteriraj po svakoj kategoriji
+        for j in 0..<length{
+            let group = [Quiz]()
+            matrix.append(group)
+            let currentSection = uniqueSectionArray[j]
+            //iteriraj po svim kvizovima i dodaj ih u stupac matrice za konkretnu kategoriju
+            for i in 0..<quizzArray.count{
+                if (quizzArray[i].category == currentSection){
+                    matrix[j].append(quizzArray[i])
+                }
+            }}
+        
+        
+    }
     func loadQuizzes(){
         
-        
-        //Stack
+        //fun fact stack
         view.addSubview(funFactStack)
         funFactStack.translatesAutoresizingMaskIntoConstraints = false
         funFactStack.distribution  = UIStackView.Distribution.equalSpacing
         funFactStack.alignment = UIStackView.Alignment.leading
         funFactStack.spacing   = 20.0
-        funFactLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9)
         funFactStack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         funFactStack.axis = NSLayoutConstraint.Axis.vertical
         funFactStack.topAnchor.constraint(equalTo: getQuizzButton.bottomAnchor, constant: 40).isActive = true
+        
         
         
         let bulbImageView = UIImageView()
@@ -114,58 +177,51 @@ class QuizzesViewController: UIViewController {
         funFactLabel.text = "Fun fact"
         funFactLabel.font = UIFont(name: "Futura", size: 25)
         
-
+        
         bulbStackView.alignment = UIStackView.Alignment.leading
         bulbStackView.spacing   = 5
         bulbStackView.axis = NSLayoutConstraint.Axis.horizontal
         
         bulbStackView.addArrangedSubview(bulbImageView)
         bulbStackView.addArrangedSubview(funFactLabel)
-       
-        funFactDescription.text = String(format: "%@ %d %@", "There are", quizzArray.flatMap{$0.questions}.filter{$0.question.contains("NBA")}.count, " questions that contain the word NBA")
+        
+        funFactDescription.text = String(format: "%@ %d %@", "There are", quizzArray.flatMap{$0.questions}.filter{$0.question.contains("NBA")}.count, "questions that contain the word NBA")
+        funFactDescription.numberOfLines = 0
         
         funFactStack.addArrangedSubview(bulbStackView)
         funFactStack.addArrangedSubview(funFactDescription)
         
         
-        
-        
-        
-        
-        
+        for j in 0..<uniqueSectionArray.count{
+
+           let  col = UIColor()
+            colorOfCategory.append(col)
+            colorOfCategory[j] = UIColor(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1), alpha: 1.0)
+        }
         
         //tableView
-        
-        
-        tableView = UITableView(frame: CGRect(x: 0, y: 330, width: view.bounds.width, height: view.bounds.height))
-      
         tableView.translatesAutoresizingMaskIntoConstraints = false
-//        tableView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1)
-//
-//        tableView.topAnchor.constraint(equalTo: funFactStack.bottomAnchor, constant: 40)
-//        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
-//        tableView.rowHeight = 50
-        tableView.backgroundColor = .white
-        view.addSubview(tableView)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        tableView.rowHeight = 150
+        tableView = UITableView(frame: CGRect(x: 0, y: 330, width: view.bounds.width, height: view.bounds.height))
+        tableView.backgroundColor = .purple
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: "QuizzCell")
         tableView.delegate = self
-       tableView.dataSource = self
+        tableView.dataSource = self
+        view.addSubview(tableView)
+        tableView.rowHeight = 180
+        tableView.backgroundColor = .purple
+        tableView.bounces = true
         
-        
-        
-        
-       
-        
-    
-   
-
-}
+ 
+    }
 }
 extension QuizzesViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         tableView.deselectRow(at: indexPath, animated: true)
+        view.addSubview(questionPopUpVC)
+        questionPopUpVC.set(quiz: matrix[indexPath.row][indexPath.section], category: uniqueSectionArray[indexPath.section], quizzId:matrix[indexPath.row][indexPath.section].id
+        )
     }
 }
 
@@ -175,40 +231,39 @@ extension QuizzesViewController: UITableViewDelegate{
 
 
 extension QuizzesViewController: UITableViewDataSource{
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let label = UILabel()
+        label.text = "      \(uniqueSectionArray[section].rawValue)"
+        label.backgroundColor = .purple
+        label.textColor = colorOfCategory[section]
+        label.font = UIFont.boldSystemFont(ofSize: 25)
+        return label
+    }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 20.0
+        return 50
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        
+        return matrix.count
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return matrix[section].count
+        
+        
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-        
-        
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "QuizzCell") as! TableViewCell
         cell.backgroundColor = .purple
-        
-        let uiView = UIView()
-    
-        cell.addSubview(uiView)
-        var image : UIImage = UIImage(named: "football.jpg")!
-        cell.imageView!.image = image
-        cell.textLabel?.text = quizzArray[indexPath.row].category.rawValue
-
-        
-         
-//        var cellConfig: UIListContentConfiguration = cell.defaultContentConfiguration()
-//        cellConfig.text = "Row \(indexPath.row)"
-//        cellConfig.textProperties.color = .white
-//        cell.contentConfiguration = cellConfig
+        let quiz = matrix[indexPath.section][indexPath.row]
+        cell.set(quiz:quiz, color: colorOfCategory[indexPath.section])
         return cell
         
-      
+        
     }
     
     
