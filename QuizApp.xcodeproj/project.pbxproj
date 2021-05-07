@@ -21,6 +21,11 @@
 		659872272625DA9400875B55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659872262625DA9400875B55 /* SceneDelegate.swift */; };
 		6598722E2625DA9600875B55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6598722D2625DA9600875B55 /* Assets.xcassets */; };
 		659872312625DA9600875B55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6598722F2625DA9600875B55 /* LaunchScreen.storyboard */; };
+		65CC9BB4264457BF00BDE095 /* QuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CC9BB3264457BF00BDE095 /* QuizViewController.swift */; };
+		65CC9BB726455B1600BDE095 /* QuizResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CC9BB626455B1600BDE095 /* QuizResultViewController.swift */; };
+		65CC9BBA2645669400BDE095 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CC9BB92645669400BDE095 /* SettingsViewController.swift */; };
+		65CC9BBE2645D0CA00BDE095 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CC9BBD2645D0CA00BDE095 /* AppRouter.swift */; };
+		65CC9BC12645D0ED00BDE095 /* AppRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CC9BC02645D0ED00BDE095 /* AppRouterProtocol.swift */; };
 		EBFEF0ED2C13D8EC5F87A863 /* Pods_QuizApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD60EFD01E332E8880E3AB /* Pods_QuizApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +47,11 @@
 		6598722D2625DA9600875B55 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		659872302625DA9600875B55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		659872322625DA9600875B55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		65CC9BB3264457BF00BDE095 /* QuizViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewController.swift; sourceTree = "<group>"; };
+		65CC9BB626455B1600BDE095 /* QuizResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizResultViewController.swift; sourceTree = "<group>"; };
+		65CC9BB92645669400BDE095 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		65CC9BBD2645D0CA00BDE095 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		65CC9BC02645D0ED00BDE095 /* AppRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouterProtocol.swift; sourceTree = "<group>"; };
 		7491A5F30C7056824A0C20B7 /* Pods-QuizApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuizApp.release.xcconfig"; path = "Target Support Files/Pods-QuizApp/Pods-QuizApp.release.xcconfig"; sourceTree = "<group>"; };
 		849440B3D9D66BFE866E5349 /* Pods-QuizApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuizApp.debug.xcconfig"; path = "Target Support Files/Pods-QuizApp/Pods-QuizApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,8 +102,11 @@
 				659872262625DA9400875B55 /* SceneDelegate.swift */,
 				6538D356263199D000C51F6A /* PopUp.swift */,
 				6516736026273787004B5D3F /* LoginViewController.swift */,
+				65CC9BB3264457BF00BDE095 /* QuizViewController.swift */,
+				65CC9BB626455B1600BDE095 /* QuizResultViewController.swift */,
 				6516737626276E6A004B5D3F /* QuizzesViewController.swift */,
 				6538D3272630C19500C51F6A /* TableViewCell.swift */,
+				65CC9BB92645669400BDE095 /* SettingsViewController.swift */,
 				6598722D2625DA9600875B55 /* Assets.xcassets */,
 				6598722F2625DA9600875B55 /* LaunchScreen.storyboard */,
 				659872322625DA9600875B55 /* Info.plist */,
@@ -103,6 +116,8 @@
 				6516736C26273961004B5D3F /* Question.swift */,
 				6516736A26273960004B5D3F /* Quiz.swift */,
 				6516736D26273961004B5D3F /* QuizCategory.swift */,
+				65CC9BC02645D0ED00BDE095 /* AppRouterProtocol.swift */,
+				65CC9BBD2645D0CA00BDE095 /* AppRouter.swift */,
 			);
 			path = QuizApp;
 			sourceTree = "<group>";
@@ -216,9 +231,14 @@
 				6516736F26273961004B5D3F /* Quiz.swift in Sources */,
 				6516737726276E6B004B5D3F /* QuizzesViewController.swift in Sources */,
 				6516736126273787004B5D3F /* LoginViewController.swift in Sources */,
+				65CC9BB726455B1600BDE095 /* QuizResultViewController.swift in Sources */,
 				6538D3282630C19500C51F6A /* TableViewCell.swift in Sources */,
+				65CC9BBA2645669400BDE095 /* SettingsViewController.swift in Sources */,
 				6516737126273961004B5D3F /* QuizCategory.swift in Sources */,
+				65CC9BB4264457BF00BDE095 /* QuizViewController.swift in Sources */,
+				65CC9BC12645D0ED00BDE095 /* AppRouterProtocol.swift in Sources */,
 				659872252625DA9400875B55 /* AppDelegate.swift in Sources */,
+				65CC9BBE2645D0CA00BDE095 /* AppRouter.swift in Sources */,
 				659872272625DA9400875B55 /* SceneDelegate.swift in Sources */,
 				6538D357263199D000C51F6A /* PopUp.swift in Sources */,
 				651673662627383F004B5D3F /* DataService.swift in Sources */,

@@ -22,10 +22,10 @@ class QuizzesViewController: UIViewController {
     var quizzesLoaded: Bool = false
     
     //fun fact stack
-    let funFactStack : UIStackView = UIStackView()
-    let bulbStackView : UIStackView = UIStackView()
-    var bulbImage : UIImage = UIImage()
-    let funFactLabel : UILabel = UILabel()
+    let funFactStack  = UIStackView()
+    let bulbStackView = UIStackView()
+    var bulbImage = UIImage()
+    let funFactLabel = UILabel()
     let funFactDescription: UILabel = UILabel()
     
     var tableView = UITableView()
@@ -36,14 +36,18 @@ class QuizzesViewController: UIViewController {
     
     //array kategorija
     var uniqueSectionArray = [QuizCategory]()
+    
     //2-d matrica popunjena s kvizovima sortiranim prema kategorijama
     var matrix = [[Quiz]]()
     var colorOfCategory =  [UIColor]()
+    var firstLoad = 0
     
-    var questionPopUpVC = PopUp()
     
+   
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.isHidden = true
+        
         view.backgroundColor = .purple
         
         //add Subviews
@@ -54,12 +58,16 @@ class QuizzesViewController: UIViewController {
         //constraints and atributes of main screen
         loadElements()
         populateMatrix()
+        
         //funkcionalnost
         getQuizzButton.addTarget(self, action: #selector(getQuizzPressed), for: .touchUpInside)
-        
-        
-        
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
     
     func loadElements(){
         
@@ -86,9 +94,8 @@ class QuizzesViewController: UIViewController {
         
         
         
-        //
+    
         errorImageView.image = UIImage(named: "error")
-//        errorImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         errorImageView.contentMode = .scaleAspectFit
         errorTitle.text = "Error\n"
         errorTitle.font = UIFont.boldSystemFont(ofSize: 27)
@@ -117,26 +124,21 @@ class QuizzesViewController: UIViewController {
         errorStack.addArrangedSubview(errorTitle)
         errorStack.addArrangedSubview(errorDescription1)
         errorStack.addArrangedSubview(errorDescription2)
-        
-        
-        
     }
     
+    
     @objc func getQuizzPressed(){
-        
         errorStack.removeFromSuperview()
-        if(!quizzesLoaded){
-            loadQuizzes()
-        }
+        firstLoad += 1
+        loadQuizzes()
         quizzesLoaded = true
-        
-        
     }
+    
     
     //popuni 2-d tablicu quiz-ovima soriranim prema kategorijama pruženim u DataService-u
     func populateMatrix(){
         quizzArray = dService.fetchQuizes()
-        let sections = quizzArray.flatMap{$0.category}
+        let sections = quizzArray.compactMap{$0.category}
         uniqueSectionArray = Array(Set(sections))
         let length = uniqueSectionArray.count
         //iteriraj po svakoj kategoriji
@@ -149,10 +151,11 @@ class QuizzesViewController: UIViewController {
                 if (quizzArray[i].category == currentSection){
                     matrix[j].append(quizzArray[i])
                 }
-            }}
-        
-        
+            }
+        }
     }
+    
+    
     func loadQuizzes(){
         
         //fun fact stack
@@ -160,10 +163,10 @@ class QuizzesViewController: UIViewController {
         funFactStack.translatesAutoresizingMaskIntoConstraints = false
         funFactStack.distribution  = UIStackView.Distribution.equalSpacing
         funFactStack.alignment = UIStackView.Alignment.leading
-        funFactStack.spacing   = 20.0
+        funFactStack.spacing   = 15.0
         funFactStack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         funFactStack.axis = NSLayoutConstraint.Axis.vertical
-        funFactStack.topAnchor.constraint(equalTo: getQuizzButton.bottomAnchor, constant: 40).isActive = true
+        funFactStack.topAnchor.constraint(equalTo: getQuizzButton.bottomAnchor, constant: 30).isActive = true
         
         
         
@@ -182,7 +185,9 @@ class QuizzesViewController: UIViewController {
         bulbStackView.spacing   = 5
         bulbStackView.axis = NSLayoutConstraint.Axis.horizontal
         
-        bulbStackView.addArrangedSubview(bulbImageView)
+        if firstLoad < 2{
+            bulbStackView.addArrangedSubview(bulbImageView)
+        }
         bulbStackView.addArrangedSubview(funFactLabel)
         
         funFactDescription.text = String(format: "%@ %d %@", "There are", quizzArray.flatMap{$0.questions}.filter{$0.question.contains("NBA")}.count, "questions that contain the word NBA")
@@ -199,9 +204,9 @@ class QuizzesViewController: UIViewController {
             colorOfCategory[j] = UIColor(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1), alpha: 1.0)
         }
         
-        //tableView
+        //tableView- style = grouped
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView = UITableView(frame: CGRect(x: 0, y: 330, width: view.bounds.width, height: view.bounds.height))
+        tableView = UITableView(frame: CGRect(x: 0, y: 280, width: view.bounds.width, height: view.bounds.height-280))
         tableView.backgroundColor = .purple
         tableView.register(TableViewCell.self, forCellReuseIdentifier: "QuizzCell")
         tableView.delegate = self
@@ -214,25 +219,30 @@ class QuizzesViewController: UIViewController {
  
     }
 }
+
+
 extension QuizzesViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
-        view.addSubview(questionPopUpVC)
-        questionPopUpVC.set(quiz: matrix[indexPath.row][indexPath.section], category: uniqueSectionArray[indexPath.section], quizzId:matrix[indexPath.row][indexPath.section].id
-        )
+        
+        //presentaj
+        let questionPopUpVC = QuizViewController()
+        questionPopUpVC.modalPresentationStyle = .fullScreen
+        questionPopUpVC.set(quiz: matrix[indexPath.section][indexPath.row])
+        questionPopUpVC.navigationController?.navigationBar.isHidden = false
+        navigationController?.pushViewController(questionPopUpVC, animated: true)
+        self.navigationController?.navigationBar.isHidden = false
+        
     }
 }
 
 
 
-
-
-
 extension QuizzesViewController: UITableViewDataSource{
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
         let label = UILabel()
         label.text = "      \(uniqueSectionArray[section].rawValue)"
         label.backgroundColor = .purple
@@ -244,16 +254,13 @@ extension QuizzesViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        
         return matrix.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return matrix[section].count
-        
-        
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -262,9 +269,5 @@ extension QuizzesViewController: UITableViewDataSource{
         let quiz = matrix[indexPath.section][indexPath.row]
         cell.set(quiz:quiz, color: colorOfCategory[indexPath.section])
         return cell
-        
-        
     }
-    
-    
 }

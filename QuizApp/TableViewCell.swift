@@ -60,7 +60,7 @@ class TableViewCell:UITableViewCell{
         cellImageView.image = UIImage(named: "football.jpg")
         cellTitle.text = quiz.title
         cellDescription.text = quiz.description
-       quizLevel = quiz.level
+        quizLevel = quiz.level
         switch quizLevel{
     case 1:
         levelOneView.backgroundColor = color
