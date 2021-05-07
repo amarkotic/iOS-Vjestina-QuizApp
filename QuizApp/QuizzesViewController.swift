@@ -171,7 +171,7 @@ class QuizzesViewController: UIViewController {
         
         
         let bulbImageView = UIImageView()
-        bulbImage = UIImage(named: "bulb.png")!
+        bulbImage = UIImage(named: "Bulb")!
         let imageViewWidthConstraint = NSLayoutConstraint(item: bulbImageView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 30)
         let imageViewHeightConstraint = NSLayoutConstraint(item: bulbImageView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 30)
         bulbImageView.addConstraints([imageViewWidthConstraint, imageViewHeightConstraint])
