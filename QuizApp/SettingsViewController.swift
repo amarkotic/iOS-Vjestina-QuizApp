@@ -13,6 +13,12 @@ class SettingsViewController: UIViewController {
     let fixedUsernameLabel = UILabel()
     let usernameLabel = UILabel()
     let logoutButton = UIButton()
+    
+    private var router: AppRouter!
+    convenience init(router: AppRouter) {
+        self.init()
+        self.router = router
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +71,7 @@ class SettingsViewController: UIViewController {
     
 
     @objc func logOut(){
-        self.view.window!.rootViewController?.presentedViewController?.dismiss(animated:false, completion: nil)
+        router.logOutButtonPressed()
     }
 
 }

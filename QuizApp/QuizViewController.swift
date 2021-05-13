@@ -29,7 +29,11 @@ class QuizViewController: UIViewController {
    
     var questionArray = [Question]()
     
-   
+    private var router: AppRouter!
+    convenience init(router: AppRouter){
+        self.init()
+        self.router = router
+    }
     
     
     override func viewDidLoad() {
@@ -187,10 +191,7 @@ class QuizViewController: UIViewController {
         
             }else{
             //nema više pitanja, prenesi i prikaži rezultat na QuizResultViewControlleru
-                let resultVC = QuizResultViewController()
-                resultVC.modalPresentationStyle = .fullScreen
-                resultVC.set(numOfCorrect: numOfCorrectAnswers, numOfQuestions: numberOfQuestions)
-                present(resultVC, animated: true, completion: nil)
+                router.presentScore(numCorrect: numOfCorrectAnswers, numTotal: numberOfQuestions)
             }}
     }
     

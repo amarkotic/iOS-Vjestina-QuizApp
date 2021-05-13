@@ -13,10 +13,17 @@ class QuizResultViewController: UIViewController {
     var totalNumOfQuestions = 0
     var scoreLabel = UILabel()
     let finishButton = UIButton()
+    
+    private var router: AppRouter!
+    convenience init(router: AppRouter) {
+        self.init()
+        self.router = router
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationController?.navigationBar.isHidden = false
         self.view.backgroundColor = .purple
         scoreLabel.text = "\(numOfCorrectAnswers)/\(totalNumOfQuestions)"
         setConstraints()
@@ -53,9 +60,7 @@ class QuizResultViewController: UIViewController {
         
     }
     @objc func finishQuiz(){
-        self.dismiss(animated: false, completion: nil)
-        navigationController?.popToRootViewController(animated: true)
-
+        router.popToRoot()
     }
     
 

@@ -42,6 +42,13 @@ class QuizzesViewController: UIViewController {
     var colorOfCategory =  [UIColor]()
     var firstLoad = 0
     
+    private var gradientLayer:CAGradientLayer!
+    
+    private var router: AppRouter!
+    convenience init(router: AppRouter) {
+        self.init()
+        self.router = router
+    }
     
    
     override func viewDidLoad() {
@@ -61,13 +68,15 @@ class QuizzesViewController: UIViewController {
         
         //funkcionalnost
         getQuizzButton.addTarget(self, action: #selector(getQuizzPressed), for: .touchUpInside)
+//        setGradientBackground()
     }
     
+   
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
     }
-    
+
     
     func loadElements(){
         
@@ -213,7 +222,6 @@ class QuizzesViewController: UIViewController {
         tableView.dataSource = self
         view.addSubview(tableView)
         tableView.rowHeight = 180
-        tableView.backgroundColor = .purple
         tableView.bounces = true
         
  
@@ -227,13 +235,8 @@ extension QuizzesViewController: UITableViewDelegate{
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        //presentaj
-        let questionPopUpVC = QuizViewController()
-        questionPopUpVC.modalPresentationStyle = .fullScreen
-        questionPopUpVC.set(quiz: matrix[indexPath.section][indexPath.row])
-        questionPopUpVC.navigationController?.navigationBar.isHidden = false
-        navigationController?.pushViewController(questionPopUpVC, animated: true)
-        self.navigationController?.navigationBar.isHidden = false
+        //prikazi kviz
+        router.showQuiz(quiz: matrix[indexPath.section][indexPath.row])
         
     }
 }
@@ -245,7 +248,7 @@ extension QuizzesViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.text = "      \(uniqueSectionArray[section].rawValue)"
-        label.backgroundColor = .purple
+//        label.backgroundColor = .purple
         label.textColor = colorOfCategory[section]
         label.font = UIFont.boldSystemFont(ofSize: 25)
         return label
@@ -266,6 +269,7 @@ extension QuizzesViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "QuizzCell") as! TableViewCell
         cell.backgroundColor = .purple
+     
         let quiz = matrix[indexPath.section][indexPath.row]
         cell.set(quiz:quiz, color: colorOfCategory[indexPath.section])
         return cell

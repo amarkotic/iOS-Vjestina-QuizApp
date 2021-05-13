@@ -19,6 +19,12 @@ class LoginViewController: UIViewController {
     let dService = DataService()
     
     
+    private var router: AppRouter!
+    convenience init(router: AppRouter) {
+        self.init()
+        self.router = router
+    }
+    
     private var gradientLayer:CAGradientLayer!
     
     override func viewDidLoad() {
@@ -38,11 +44,6 @@ class LoginViewController: UIViewController {
         loginButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         emailTextField.addTarget(self, action: #selector(didTapEmailTextField), for: .editingDidBegin)
         passwordTextField.addTarget(self, action: #selector(didTapPasswordTextField), for: .editingDidBegin)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        gradientLayer.frame = view.bounds
     }
     
     func setGradientBackground(){
@@ -121,6 +122,7 @@ class LoginViewController: UIViewController {
         
     }
     
+    
     @objc private func didTapButton(){
         
         loginButton.backgroundColor = UIColor(white: 1, alpha: 1)
@@ -132,23 +134,7 @@ class LoginViewController: UIViewController {
         
         case .success:
             //prijava je uspješna
-            let qvc = UINavigationController(rootViewController: QuizzesViewController())
-            let svc = SettingsViewController()
-            
-            //tabbar[QuizzesViewControler, SettingsViewController]
-            let tabbar = UITabBarController()
-            tabbar.viewControllers = [qvc, svc]
-            
-            //izgled tabBar-a
-            qvc.tabBarItem.image = UIImage(named: "Quizz")
-            qvc.tabBarItem.title = "Quiz"
-            svc.tabBarItem.image = UIImage(named: "Settings")
-            svc.tabBarItem.title = "Settings"
-            tabbar.tabBar.barTintColor = .white
-            tabbar.tabBar.tintColor = .purple
-            
-            tabbar.modalPresentationStyle = .fullScreen
-            present(tabbar, animated: true, completion: nil)
+            router.loginButtonPressedAndSuccesfull()
             
             //osvježi textFieldove
             emailTextField.text = ""
