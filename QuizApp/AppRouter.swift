@@ -14,8 +14,7 @@ class AppRouter: AppRouterProtocol{
            self.navigationController = navigationController
        }
 
-    
-    
+
     func setStartScreen(in window: UIWindow?) {
         let vc = LoginViewController(router: self)
         navigationController.pushViewController(vc, animated: true)
@@ -24,11 +23,8 @@ class AppRouter: AppRouterProtocol{
 
     }
     
-    
-    //showHomeScreen bolje nazivlje
-    func loginButtonPressedAndSuccesfull(){
-        
-        
+    //login button pritisnut i podatci za prijavu ispravni
+    func showHomeScreen(){
         let qvc = QuizzesViewController(router: self)
         let navQvc = UINavigationController(rootViewController: qvc)
         let svc = SettingsViewController(router: self)
@@ -45,26 +41,26 @@ class AppRouter: AppRouterProtocol{
         tabbar.tabBar.barTintColor = .white
         tabbar.tabBar.tintColor = .purple
         
-        
         navigationController.setViewControllers([tabbar], animated: true)
-
     }
     
-    func logOutButtonPressed(){
+    //logout button pritisnut i odjava uspješna
+    func showLogin(){
         let lvc = LoginViewController(router: self)
         navigationController.setViewControllers([lvc], animated: false)
        
     }
     
-    //pageviewcontroller je bolje rjesenje nego updejtat uiview
+    //MARK:- todo pageviewcontroller
     func showQuiz(quiz: Quiz){
         let questionPopUpVC = QuizViewController(router: self)
         questionPopUpVC.set(quiz: quiz)
-        
         questionPopUpVC.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(questionPopUpVC, animated: false)
 
     }
+    
+    //prikaz rezultata kviza nakon odgovora na sva pitanja
     func presentScore(numCorrect: Int, numTotal: Int){
         let resultVC = QuizResultViewController(router: self)
         resultVC.modalPresentationStyle = .fullScreen
@@ -72,7 +68,20 @@ class AppRouter: AppRouterProtocol{
         navigationController.pushViewController(resultVC, animated: false)
     }
     
+    //pritsnut gumb kojim se završava kviz
     func popToRoot(){
         navigationController.popToRootViewController(animated: false)
+    }
+    
+    //presentanje ljestvice
+    func showLeaderboard(){
+        let lbdVC = LeaderboardViewController(router: self)
+        lbdVC.modalPresentationStyle = .fullScreen
+        navigationController.present(lbdVC, animated: false, completion: nil)
+    }
+    
+    //dissmisanje ljestvice
+    func dissmisLeaderBoard(){
+        navigationController.presentedViewController?.dismiss(animated: false, completion: nil)
     }
 }
