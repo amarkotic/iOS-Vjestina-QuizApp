@@ -1,45 +1,19 @@
 //
-//  QuizResultViewController.swift
+//  QuizResultViewController+Design.swift
 //  QuizApp
 //
-//  Created by Antonio Markotic on 07.05.2021..
+//  Created by Antonio Markotic on 29.05.2021..
 //
 
+import SnapKit
 import UIKit
 
-class QuizResultViewController: UIViewController {
-
-    var numOfCorrectAnswers = 0
-    var totalNumOfQuestions = 0
-    var scoreLabel = UILabel()
-    let finishButton = UIButton()
-    let seeLeaderBoardButton = UIButton()
-    
-    
-    private var router: AppRouter!
-    convenience init(router: AppRouter) {
-        self.init()
-        self.router = router
-    }
-
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        //UI
-        setConstraints()
+extension QuizResultViewController{
+    func buildViews(){
         loadElements()
-      
-        //funkcionalnost
-        finishButton.addTarget(self, action: #selector(finishQuiz), for: .touchUpInside)
-        seeLeaderBoardButton.addTarget(self, action: #selector(seeLeaderBoard), for: .touchUpInside)
+        setConstraints()
     }
-   
-
-    func set (numOfCorrect:Int, numOfQuestions:Int){
-        numOfCorrectAnswers = numOfCorrect
-        totalNumOfQuestions = numOfQuestions
-    }
+    
     
     
     func setConstraints(){
@@ -52,8 +26,7 @@ class QuizResultViewController: UIViewController {
             make.centerY.equalTo(view).offset(-100)
         }
         
-       
-        
+    
         //finishquizbutton
         self.view.addSubview(finishButton)
         finishButton.snp.makeConstraints { (make) in
@@ -93,15 +66,5 @@ class QuizResultViewController: UIViewController {
         finishButton.backgroundColor = .white
         finishButton.setTitle("Finish Quiz", for: .normal)
         finishButton.setTitleColor(.purple, for: .normal)
-    }
-    
-    
-    @objc func finishQuiz(){
-        router.popToRoot()
-    }
-    
-    
-    @objc func seeLeaderBoard(){
-        router.showLeaderboard()
     }
 }

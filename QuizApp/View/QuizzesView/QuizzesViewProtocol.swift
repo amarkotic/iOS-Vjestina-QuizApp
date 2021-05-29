@@ -8,5 +8,5 @@
 import Foundation
 
 protocol QuizzesViewProtocol:NSObjectProtocol {
-    func fetchQuizzes()
+    func fetchSuccessful(matrix: [[Quiz]], uniqueSectionArray: [QuizCategory], quizzArray: [Quiz])
 }

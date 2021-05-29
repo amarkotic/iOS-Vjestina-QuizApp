@@ -9,22 +9,37 @@ class AppRouter: AppRouterProtocol{
     
     
     private let navigationController: UINavigationController!
- 
-       init(navigationController: UINavigationController) {
-           self.navigationController = navigationController
-       }
-
-
+    
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
+    }
+    
+    
+    
+    
     func setStartScreen(in window: UIWindow?) {
+        // Sets background to a blank/empty image
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        // Sets shadow (line below the bar) to a blank image
+        UINavigationBar.appearance().shadowImage = UIImage()
+        // Sets the translucent background color
+        UINavigationBar.appearance().backgroundColor = .clear
+        // Set translucent. (Default value is already true, so this can be removed if desired.)
+        UINavigationBar.appearance().isTranslucent = true
+        UINavigationBar.appearance().tintColor = .white
+        
+        
         let vc = LoginViewController(router: self)
         navigationController.pushViewController(vc, animated: true)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
-
+        
     }
     
     //login button pritisnut i podatci za prijavu ispravni
     func showHomeScreen(){
+        
+        
         let qvc = QuizzesViewController(router: self)
         let navQvc = UINavigationController(rootViewController: qvc)
         let svc = SettingsViewController(router: self)
@@ -48,7 +63,7 @@ class AppRouter: AppRouterProtocol{
     func showLogin(){
         let lvc = LoginViewController(router: self)
         navigationController.setViewControllers([lvc], animated: false)
-       
+        
     }
     
     //MARK:- todo pageviewcontroller
@@ -57,7 +72,7 @@ class AppRouter: AppRouterProtocol{
         questionPopUpVC.set(quiz: quiz)
         questionPopUpVC.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(questionPopUpVC, animated: false)
-
+        
     }
     
     //prikaz rezultata kviza nakon odgovora na sva pitanja

@@ -1,6 +1,10 @@
 import Foundation
+import UIKit
 
-class NetworkService {
+class NetworkService: NetworkingProtocol{
+    let defaults = UserDefaults()
+
+    
     func executeUrlRequest<T: Codable>(_ request: URLRequest, completionHandler: @escaping
                                         (Result<T, RequestError>) -> Void) {
         
@@ -85,7 +89,6 @@ class NetworkService {
             
             if(httpResponse.statusCode == 200){
                 DispatchQueue.main.async {
-                  
                     completionHandler(.success("Success" as! T))
                 }
             }
@@ -93,4 +96,80 @@ class NetworkService {
         dataTask.resume()
     }
     
+    
+    func fetchLogin(email: String, password: String) -> URLRequest{
+    
+        
+        guard let url = URL(string: "https://iosquiz.herokuapp.com/api/session?username=\(email)&password=\(password)") else{
+            fatalError("URL not working")
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-type")
+        
+        return request
+       
+    }
+    
+    
+    
+    
+    func fetchQuizzesFromNetwork()->URLRequest{
+        guard let url = URL(string: "https://iosquiz.herokuapp.com/api/quizzes") else{
+            fatalError("URL not working")
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-type")
+        return request
+    }
+    
+    
+    func fetchQuiz(quizID: Int, userID: Int, time: Double, numOfCorrect: Int, token: String)->URLRequest{
+        guard let url = URL(string: "https://iosquiz.herokuapp.com/api/result") else{
+            fatalError("URL not working")
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-type")
+        request.addValue(token, forHTTPHeaderField: "Authorization")
+        
+        let json: [String : Any] = ["quiz_id": quizID, "user_id": userID, "time": time, "no_of_correct": numOfCorrect]
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        request.httpBody = jsonData
+        return request
+    }
+    
+    
+    func fetchLeaderboardFromNetwork()-> URLRequest{
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "iosquiz.herokuapp.com"
+        urlComponents.path = "/api/score"
+        
+        
+        let queryItems = [URLQueryItem(name: "quiz_id", value: self.defaults.string(forKey: "quizID"))]
+        urlComponents.queryItems = queryItems
+        var request = URLRequest(url: urlComponents.url!)
+        
+        
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-type")
+        request.addValue(self.defaults.string(forKey: "token")!, forHTTPHeaderField: "Authorization")
+        return request
+    }
+    
+    
+    
+
 }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+

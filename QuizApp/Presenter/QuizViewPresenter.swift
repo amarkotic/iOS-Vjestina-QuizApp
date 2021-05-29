@@ -22,20 +22,11 @@ class QuizViewPresenter{
     
     func postResult(quizID: Int, userID: Int, time: Double, numOfCorrect: Int, token: String){
         DispatchQueue.global().async {
-            guard let url = URL(string: "https://iosquiz.herokuapp.com/api/result") else{
-                fatalError("URL not working")
-            }
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.addValue("application/json", forHTTPHeaderField: "Content-type")
-            request.addValue(token, forHTTPHeaderField: "Authorization")
-            
-            let json: [String : Any] = ["quiz_id": quizID, "user_id": userID, "time": time, "no_of_correct": numOfCorrect]
-            let jsonData = try? JSONSerialization.data(withJSONObject: json)
-            request.httpBody = jsonData
+            let request = self.nService.fetchQuiz(quizID: quizID, userID: userID, time: time, numOfCorrect: numOfCorrect, token: token)
 
             self.nService.executeTimePostUrlRequest(request) { (result: Result<String, TimePostError>) in
                 
+                //ne 
                 switch result{
                 case .failure(let error):
                     print(error)

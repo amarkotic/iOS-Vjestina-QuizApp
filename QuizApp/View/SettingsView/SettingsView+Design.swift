@@ -1,38 +1,19 @@
 //
-//  SettingsViewController.swift
+//  SettingsView+Design.swift
 //  QuizApp
 //
-//  Created by Antonio Markotic on 07.05.2021..
+//  Created by Antonio Markotic on 29.05.2021..
 //
 
 import UIKit
+import SnapKit
 
-class SettingsViewController: UIViewController {
-
-    let usernameStack = UIStackView()
-    let fixedUsernameLabel = UILabel()
-    let usernameLabel = UILabel()
-    let logoutButton = UIButton()
+extension SettingsViewController{
     
-    
-    private var router: AppRouter!
-    convenience init(router: AppRouter) {
-        self.init()
-        self.router = router
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        //UI
-        setConstraints()
+    //DESIGN
+    func buildViews(){
         loadElements()
-        
-      
-       
-        
-        //funkcionalnost
-        logoutButton.addTarget(self, action: #selector(logOut), for: .touchUpInside)
+        setConstraints()
     }
     
     func setConstraints(){
@@ -84,9 +65,4 @@ class SettingsViewController: UIViewController {
         logoutButton.setTitleColor(.red, for: .normal)
         
     }
-
-    @objc func logOut(){
-        router.showLogin()
-    }
-
 }

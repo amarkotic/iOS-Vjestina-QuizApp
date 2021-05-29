@@ -7,6 +7,6 @@
 
 import Foundation
 protocol LoginViewProtocol:NSObjectProtocol {
-    func completed(id: Int, token: String)
+    func completed()
     func showError()
 }

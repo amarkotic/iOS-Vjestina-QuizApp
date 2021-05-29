@@ -53,6 +53,7 @@ class QuizViewController: UIViewController, UIGestureRecognizerDelegate, QuizVie
         self.view.backgroundColor = .purple
         
         quizViewPresenter.setQuizViewDelegate(quizViewDelegate: self)
+        
         //UI
         setConstraints()
         loadElements()
@@ -155,32 +156,32 @@ class QuizViewController: UIViewController, UIGestureRecognizerDelegate, QuizVie
     }
     
     
-    
+
     @objc func answerOnePressed(){
         checkAnswerPressed(num: 0)
     }
-    
+
     @objc func answerTwoPressed(){
         checkAnswerPressed(num: 1)
     }
-    
+
     @objc func answerThreePressed(){
         checkAnswerPressed(num: 2)
     }
-    
+
     @objc func answerFourPressed(){
         checkAnswerPressed(num: 3)
     }
-    
+
     //logika za provjeru je li odgovor točan
     func checkAnswerPressed(num:Int){
-        
+
         //zabrani stiskanje odgovora do idućeg pitanja
         answerOne.isEnabled = false
         answerTwo.isEnabled = false
         answerThree.isEnabled = false
         answerFour.isEnabled = false
-        
+
         //odgovor je točan
         if questionArray[currentQuestion].correctAnswer == num {
             switch num {
@@ -215,12 +216,12 @@ class QuizViewController: UIViewController, UIGestureRecognizerDelegate, QuizVie
             }
             //progressBar u crveno za netočan odogovr
             viewArray[currentQuestion].backgroundColor = .red
-            
+
             //zazeleni točan odgovor nakon 0.5s
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
                 makeCorrectAnswerGreen()
             }
-            
+
         }
         
         
