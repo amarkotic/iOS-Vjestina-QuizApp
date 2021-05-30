@@ -1,9 +1,5 @@
 struct Quiz :Codable, Equatable{
-    static func == (lhs: Quiz, rhs: Quiz) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
-
+ 
     let id: Int
     let title: String
     let description: String
@@ -21,4 +17,10 @@ struct Quiz :Codable, Equatable{
         case imageUrl = "image"
         case questions
     }
+    
+    static func == (lhs: Quiz, rhs: Quiz) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+
 }

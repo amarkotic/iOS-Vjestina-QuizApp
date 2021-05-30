@@ -2,6 +2,18 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/antoniomarkotic/Documents/Programiranje/QuizApp/QuizApp/Data Source/CDQuiz+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/antoniomarkotic/Documents/Programiranje/QuizApp/QuizApp/Data Source/CDQuiz+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/antoniomarkotic/Documents/Programiranje/QuizApp/QuizApp/Data Source/CDQuestion+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/antoniomarkotic/Documents/Programiranje/QuizApp/QuizApp/Data Source/CDQuestion+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
       location = "group:QuizApp.xcodeproj">
    </FileRef>
    <FileRef

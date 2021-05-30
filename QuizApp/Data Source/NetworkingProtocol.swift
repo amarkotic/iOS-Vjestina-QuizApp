@@ -12,5 +12,6 @@ protocol NetworkingProtocol {
     func fetchQuizzesFromNetwork()->URLRequest
 
     func fetchQuiz(quizID: Int, userID: Int, time: Double, numOfCorrect: Int, token: String)->URLRequest
+    
     func fetchLeaderboardFromNetwork()-> URLRequest
 }
