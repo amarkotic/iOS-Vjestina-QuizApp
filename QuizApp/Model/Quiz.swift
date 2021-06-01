@@ -6,7 +6,7 @@ struct Quiz :Codable, Equatable{
     let category: QuizCategory
     let level: Int
     let imageUrl: String
-    let questions: [Question]
+    var questions: [Question]
 
     enum CodingKeys:String, CodingKey{
         case id
