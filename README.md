@@ -1,6 +1,6 @@
 # iOS-Vjestina-QuizApp
 
-Ispričavam se na kašnjenju sa 4. domaćom zadaćom. Nisam htio nastaviti na 4. dz sve dok ne popravim sve greške na koje mi je ukazano na pull requestu 3. domace zadace što mi je oduzelo dosta vremena.
+Ispričavam se na kašnjenju sa 4. domaćom zadaćom. Nisam htio nastaviti na 4. dz sve dok ne primjenim savjete koje sam dobio na pull requestu 3. domace zadace što mi je uz još neke privatne obaveze oduzelo dosta vremena.
 
 4. dz
 Pitanje: Prilikom kreiranja SearchViewControllera u AppRouteru i dodavanja istog u TabBarController kao sredisnji controller nailazim na problem.
