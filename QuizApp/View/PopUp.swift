@@ -37,13 +37,7 @@ class PopUp: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    func set(quiz:Quiz, category: QuizCategory, quizzId: Int){
-//        
-//        
-//        
-//    }
 
-        
         
 
     

@@ -36,6 +36,18 @@ class LeaderboardViewController: UIViewController, LeaderboardProtocol {
         exitButton.addTarget(self, action: #selector(exitButtonPressed), for: .touchUpInside)
     }
     
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        UIView.animate(withDuration: 2,
+                       delay: 0,
+                       options: .curveLinear,
+                       animations:{
+                        self.loadingImage.transform = self.loadingImage.transform.rotated(by: 3)
+                       }
+                       )
+    }
     func populateList(recievedList : [LeaderboardResult]){
         list = recievedList
         buildViewsAfterFetch()
