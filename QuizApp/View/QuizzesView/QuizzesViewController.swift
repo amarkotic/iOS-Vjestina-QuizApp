@@ -24,7 +24,7 @@ class QuizzesViewController: UIViewController, QuizzesViewProtocol {
     let funFactLabel = UILabel()
     let funFactDescription: UILabel = UILabel()
     
-    var tableView = UITableView.init(frame: CGRect.zero, style: .grouped)
+    var tableView : UITableView!
     
     //array kvizova
     var quizzArray :[Quiz] = []
@@ -97,7 +97,7 @@ class QuizzesViewController: UIViewController, QuizzesViewProtocol {
 
 
     
-    
+    //nakon uspjesnog fetcha ju poziva QuizzesViewPresenter
     func fetchSuccessful(matrix: [[Quiz]], uniqueSectionArray: [QuizCategory], quizzArray: [Quiz]){
         self.matrix = matrix
         self.uniqueSectionArray = uniqueSectionArray

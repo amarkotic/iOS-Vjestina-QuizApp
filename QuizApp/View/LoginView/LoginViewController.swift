@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Reachability
 
+
 class LoginViewController: UIViewController, LoginViewProtocol {
     
     var gradientLayer:CAGradientLayer!
@@ -48,14 +49,7 @@ class LoginViewController: UIViewController, LoginViewProtocol {
         emailTextField.addTarget(self, action: #selector(didTapEmailTextField), for: .editingDidBegin)
         passwordTextField.addTarget(self, action: #selector(didTapPasswordTextField), for: .editingDidBegin)
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        quizNameLabel.transform = quizNameLabel.transform.scaledBy(x: 0, y: 0)
-        emailTextField.transform = emailTextField.transform.translatedBy(x: -view.frame.width, y: 0)
-        passwordTextField.transform = passwordTextField.transform.translatedBy(x: -view.frame.width, y: 0)
-        loginButton.transform = loginButton.transform.translatedBy(x: -view.frame.width, y: 0)
-    }
-    
+
   
     
     @objc private func didTapLoginButton(){
@@ -125,7 +119,17 @@ class LoginViewController: UIViewController, LoginViewProtocol {
 
 
 //Animations
+
 extension LoginViewController{
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        quizNameLabel.transform = quizNameLabel.transform.scaledBy(x: 0, y: 0)
+        emailTextField.transform = emailTextField.transform.translatedBy(x: -view.frame.width, y: 0)
+        passwordTextField.transform = passwordTextField.transform.translatedBy(x: -view.frame.width, y: 0)
+        loginButton.transform = loginButton.transform.translatedBy(x: -view.frame.width, y: 0)
+    }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

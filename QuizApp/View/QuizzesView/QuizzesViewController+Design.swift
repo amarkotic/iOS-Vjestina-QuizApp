@@ -80,16 +80,20 @@ extension QuizzesViewController{
         view.addSubview(funFactStack)
         funFactStack.snp.makeConstraints { (make) in
             make.centerX.equalTo(view)
-            make.top.equalTo(quizNameLabel.snp.bottom).offset(30)
+            make.top.equalTo(quizNameLabel.snp.bottom).offset(15)
+            make.width.equalToSuperview().multipliedBy(0.9)
         }
+        
         
         view.addSubview(bulbImageView)
         bulbImageView.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: 30, height: 30))
         }
         
+        
+        
+        tableView = UITableView(frame: CGRect(x: 0, y: 230, width: view.bounds.width, height: view.bounds.height-230), style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView = UITableView(frame: CGRect(x: 0, y: 230, width: view.bounds.width, height: view.bounds.height-230))
     }
 
 }

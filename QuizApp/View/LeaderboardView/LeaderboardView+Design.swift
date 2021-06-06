@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 
+
 extension LeaderboardViewController{
     
     //DESIGN
@@ -24,6 +25,7 @@ extension LeaderboardViewController{
     
     
     func loadElements(){
+        
         
         view.backgroundColor = .purple
         tableView.isHidden = true
