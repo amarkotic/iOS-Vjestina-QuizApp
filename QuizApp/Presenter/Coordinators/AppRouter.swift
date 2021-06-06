@@ -43,16 +43,20 @@ class AppRouter: AppRouterProtocol{
         let qvc = QuizzesViewController(router: self)
         let navQvc = UINavigationController(rootViewController: qvc)
         let svc = SettingsViewController(router: self)
-        
-        //tabbar[QuizzesViewControler, SettingsViewController]
+        let searchVc = SearchViewController(router: self)
+        let navSearchVc = UINavigationController(rootViewController: searchVc)
+   
+        //MARK: -ako se u tabbar umjesto navSearchVc stavi searchVc onda search ekran radi glatko
         let tabbar = UITabBarController()
-        tabbar.viewControllers = [navQvc, svc]
+        tabbar.viewControllers = [navQvc,navSearchVc, svc]
         
         //izgled tabBar-a
         navQvc.tabBarItem.image = UIImage(named: "Quizz")
         navQvc.tabBarItem.title = "Quiz"
         svc.tabBarItem.image = UIImage(named: "Settings")
         svc.tabBarItem.title = "Settings"
+        navSearchVc.tabBarItem.image = UIImage(named: "Search")
+        navSearchVc.tabBarItem.title = "Search"
         tabbar.tabBar.barTintColor = .white
         tabbar.tabBar.tintColor = .purple
         

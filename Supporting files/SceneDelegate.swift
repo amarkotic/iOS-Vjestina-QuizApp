@@ -19,11 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         
         window = UIWindow(windowScene: windowScene)
-//        let lvc = LoginViewController()
-//
-//        window?.rootViewController = lvc
-//        window?.makeKeyAndVisible()
-//
+
         let navC = UINavigationController()
         
         let appRouter = AppRouter(navigationController: navC)

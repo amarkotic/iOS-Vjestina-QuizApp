@@ -7,19 +7,22 @@
 
 import UIKit
 import SnapKit
+import Reachability
+
 
 class LoginViewController: UIViewController, LoginViewProtocol {
     
     var gradientLayer:CAGradientLayer!
-
-    let quizNameLabel: UILabel = UILabel()
     
-    let stackView : UIStackView = UIStackView()
-    let emailTextField: UITextField = UITextField()
-    let passwordTextField: UITextField = UITextField()
-    let loginButton : UIButton = UIButton()
+    let quizNameLabel = UILabel()
+    let noInternetLabel = UILabel()
     
-   
+    let emailTextField = UITextField()
+    let passwordTextField = UITextField()
+    let loginButton = UIButton()
+    
+    let reachability = try! Reachability()
+    var internetConnection = false
     
     private let loginViewPresenter = LoginViewPresenter(networking: NetworkService())
     private var router: AppRouter!
@@ -46,12 +49,26 @@ class LoginViewController: UIViewController, LoginViewProtocol {
         emailTextField.addTarget(self, action: #selector(didTapEmailTextField), for: .editingDidBegin)
         passwordTextField.addTarget(self, action: #selector(didTapPasswordTextField), for: .editingDidBegin)
     }
-    
+
+  
     
     @objc private func didTapLoginButton(){
         view.endEditing(true)
         loginButton.backgroundColor = UIColor(white: 1, alpha: 1)
-        loginViewPresenter.login(email: emailTextField.text!, password: passwordTextField.text!)
+
+        //obavijesti korisnika o dostupnosti interneta
+        if reachability.connection != .unavailable{
+            noInternetLabel.isHidden = true
+            loginViewPresenter.login(email: emailTextField.text!, password: passwordTextField.text!)
+        }else{
+            noInternetLabel.isHidden = false
+        }
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [] in
             self.loginButton.backgroundColor = UIColor.white.withAlphaComponent(0.8)
         }
@@ -89,7 +106,107 @@ class LoginViewController: UIViewController, LoginViewProtocol {
     
     //login successful
     func completed(){
-        router.showHomeScreen()
+        removeElements()
+
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.9) {
+            self.router.showHomeScreen()
+        }
+
+    }
+    
+}
+
+
+
+//Animations
+
+extension LoginViewController{
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        quizNameLabel.transform = quizNameLabel.transform.scaledBy(x: 0, y: 0)
+        emailTextField.transform = emailTextField.transform.translatedBy(x: -view.frame.width, y: 0)
+        passwordTextField.transform = passwordTextField.transform.translatedBy(x: -view.frame.width, y: 0)
+        loginButton.transform = loginButton.transform.translatedBy(x: -view.frame.width, y: 0)
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.animate(withDuration: 1.5,
+                       delay: 0,
+                       options: [.curveEaseInOut],
+                       animations: { [self] in
+                        quizNameLabel.alpha = 1
+                        quizNameLabel.transform = .identity
+                        self.view.layoutIfNeeded()
+                       }
+        )
+        
+        UIView.animate(withDuration: 1.5,
+                       delay: 0.25,
+                       options: [.curveEaseInOut],
+                       animations: { [self] in
+                        emailTextField.alpha = 1
+                        emailTextField.transform = .identity
+                        self.view.layoutIfNeeded()
+                       }
+        )
+        
+        UIView.animate(withDuration: 1.5,
+                       delay: 0.5,
+                       options: [.curveEaseInOut],
+                       animations: { [self] in
+                        passwordTextField.alpha = 1
+                        passwordTextField.transform = .identity
+                        self.view.layoutIfNeeded()
+                       }
+        )
+        UIView.animate(withDuration: 1.5,
+                       delay: 0.75,
+                       options: [.curveEaseInOut],
+                       animations: { [self] in
+                        loginButton.alpha = 1
+                        loginButton.transform = .identity
+                        self.view.layoutIfNeeded()
+                       }
+        )
+        
+    }
+    
+    func removeElements(){
+        UIView.animate(withDuration: 0.75,
+                       delay: 0.0,
+                       options: [.curveEaseInOut],
+                       animations: { [self] in
+                        quizNameLabel.transform = quizNameLabel.transform.translatedBy(x: 0, y: -view.frame.height)
+                        self.view.layoutIfNeeded()
+                       }
+        )
+        UIView.animate(withDuration: 0.75,
+                       delay: 0.25,
+                       options: [.curveEaseInOut],
+                       animations: { [self] in
+                        emailTextField.transform = emailTextField.transform.translatedBy(x: 0, y: -view.frame.height)
+                        self.view.layoutIfNeeded()
+                       }
+        )
+        UIView.animate(withDuration: 0.75,
+                       delay: 0.5,
+                       options: [.curveEaseInOut],
+                       animations: { [self] in
+                        passwordTextField.transform = passwordTextField.transform.translatedBy(x: 0, y: -view.frame.height)
+                        self.view.layoutIfNeeded()
+                       }
+        )
+        UIView.animate(withDuration: 0.75,
+                       delay: 0.75,
+                       options: [.curveEaseInOut],
+                       animations: { [self] in
+                        loginButton.transform = loginButton.transform.translatedBy(x: 0, y: -view.frame.height)
+                        self.view.layoutIfNeeded()
+                       }
+        )
     }
     
 }

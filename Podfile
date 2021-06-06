@@ -8,4 +8,6 @@ target 'QuizApp' do
   # Pods for QuizApp
  pod 'SnapKit', '~> 4.0'
 pod 'Reachability', '~> 3.2'
+pod 'PureLayout'
+pod 'SAConfettiView'
 end

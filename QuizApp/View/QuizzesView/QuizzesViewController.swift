@@ -14,14 +14,6 @@ class QuizzesViewController: UIViewController, QuizzesViewProtocol {
     
     //fiksni dio
     let quizNameLabel: UILabel = UILabel()
-    let getQuizzButton = UIButton()
-    
-    //error stack
-    var errorStack = UIStackView()
-    let errorImageView = UIImageView()
-    let errorTitle = UILabel()
-    let errorDescription1 = UILabel()
-    let errorDescription2 = UILabel()
 
     
     //fun fact stack
@@ -32,7 +24,7 @@ class QuizzesViewController: UIViewController, QuizzesViewProtocol {
     let funFactLabel = UILabel()
     let funFactDescription: UILabel = UILabel()
     
-    var tableView = UITableView.init(frame: CGRect.zero, style: .grouped)
+    var tableView : UITableView!
     
     //array kvizova
     var quizzArray :[Quiz] = []
@@ -54,11 +46,14 @@ class QuizzesViewController: UIViewController, QuizzesViewProtocol {
     
     let nService = NetworkService()
     private let quizzesViewPresenter = QuizzesViewPresenter(networking: NetworkService())
+
+    
     
     private var router: AppRouter!
     convenience init(router: AppRouter) {
         self.init()
         self.router = router
+      
     }
     
     
@@ -66,14 +61,17 @@ class QuizzesViewController: UIViewController, QuizzesViewProtocol {
         super.viewDidLoad()
         quizzesViewPresenter.setquizzesViewDelegate(quizzesViewDelegate: self)
         
-        //pokretanje provjere interneta
-        checkInternetConnection()
-       
         //UI
-        buildViewsBeforeFetch()
+        buildViews()
         
-        //funkcionalnost
-        getQuizzButton.addTarget(self, action: #selector(getQuizzPressed), for: .touchUpInside)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        checkInternetConnection()
+        quizzesViewPresenter.fetchQuizzes(with: internetConnection)
+        if(firstLoad == false){
+        bulbStackView.isHidden = true
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -84,8 +82,11 @@ class QuizzesViewController: UIViewController, QuizzesViewProtocol {
     
     
     func checkInternetConnection(){
+        
         if reachability.isReachable{
             internetConnection = true
+        }else{
+            internetConnection = false
         }
         do {
             try reachability.startNotifier()
@@ -95,17 +96,8 @@ class QuizzesViewController: UIViewController, QuizzesViewProtocol {
     }
 
 
-    @objc func getQuizzPressed(){
-        if internetConnection == true{
-            quizzesViewPresenter.fetchQuizzes()
-            if (firstLoad != true){
-                buildViewsAfterFetch()
-            }
-        }
-    }
     
-    
-    
+    //nakon uspjesnog fetcha ju poziva QuizzesViewPresenter
     func fetchSuccessful(matrix: [[Quiz]], uniqueSectionArray: [QuizCategory], quizzArray: [Quiz]){
         self.matrix = matrix
         self.uniqueSectionArray = uniqueSectionArray
@@ -114,10 +106,7 @@ class QuizzesViewController: UIViewController, QuizzesViewProtocol {
 
         tableView.reloadData()
         funFactDescription.text = String(format: "%@ %d %@", "There are", quizzArray.flatMap{$0.questions}.filter{$0.question.contains("NBA")}.count, "questions that contain the word NBA")
-   
-        errorStack.isHidden = true
-        funFactStack.isHidden = false
-        tableView.isHidden = false
+        bulbStackView.isHidden = false
         
         for j in 0..<uniqueSectionArray.count{
             

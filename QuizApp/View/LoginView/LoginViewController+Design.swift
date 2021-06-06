@@ -13,14 +13,16 @@ extension LoginViewController{
     
     //DESIGN
     func buildViews() {
+
         styleViews()
         defineLayoutForViews()
+
     }
 
     
     private func styleViews() {
         
-        //gradient backgroun
+        //gradient background
         gradientLayer = CAGradientLayer()
         gradientLayer.frame = view.bounds
         gradientLayer.colors = [UIColor.purple.cgColor, UIColor.white.cgColor]
@@ -30,17 +32,21 @@ extension LoginViewController{
 
         
         //PopQuiz label
+        quizNameLabel.alpha = 0
         quizNameLabel.text = "PopQuiz"
         quizNameLabel.font = UIFont(name: "Futura", size: 40)
         quizNameLabel.textAlignment = NSTextAlignment.center
         
-        //main stackview
-        stackView.distribution  = .equalSpacing
-        stackView.alignment = UIStackView.Alignment.center
-        stackView.spacing   = 20.0
-        stackView.axis = NSLayoutConstraint.Axis.vertical
-        
+        //No Internet Label
+        noInternetLabel.text = "No Internet Connection"
+        noInternetLabel.font = UIFont(name: "Futura", size: 20)
+        noInternetLabel.textAlignment = NSTextAlignment.center
+        noInternetLabel.backgroundColor = .gray
+        noInternetLabel.alpha = 0.5
+        noInternetLabel.isHidden = true
+
         //emailtextfield
+        emailTextField.alpha = 0
         let paddingView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 20))
         emailTextField.leftView = paddingView
         emailTextField.leftViewMode = .always
@@ -50,6 +56,7 @@ extension LoginViewController{
         emailTextField.layer.cornerRadius = 20
         
         //pasword text field
+        passwordTextField.alpha = 0
         let paddingView2: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 20))
         passwordTextField.leftView = paddingView2
         passwordTextField.leftViewMode = .always
@@ -59,6 +66,7 @@ extension LoginViewController{
         passwordTextField.layer.cornerRadius = 20
         
         //loginButton
+        loginButton.alpha = 0
         loginButton.setTitle("Login", for: .normal)
         loginButton.backgroundColor = UIColor.white.withAlphaComponent(0.8)
         loginButton.setTitleColor(.purple, for: .normal)
@@ -66,10 +74,6 @@ extension LoginViewController{
         loginButton.layer.borderColor = UIColor.white.cgColor
         loginButton.layer.cornerRadius = 20
         
-        //dodaj elemente u stackView
-        stackView.addArrangedSubview(emailTextField)
-        stackView.addArrangedSubview(passwordTextField)
-        stackView.addArrangedSubview(loginButton)
         
     }
     
@@ -77,32 +81,48 @@ extension LoginViewController{
         //PopQuiz label
         view.addSubview(quizNameLabel)
         quizNameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(view).offset(30)
-            make.size.equalTo(CGSize(width: 200, height: 200))
+            make.top.equalTo(view).offset(50)
             make.centerX.equalTo(view)
         }
+        quizNameLabel.transform = quizNameLabel.transform.scaledBy(x: 200, y: 200)
         
-        //main stackView
-        view.addSubview(stackView)
-        stackView.snp.makeConstraints { (make) in
-            make.centerX.equalTo(view)
-            make.top.equalTo(quizNameLabel.snp.bottom).offset(40)
+        
+        //no internet
+        view.addSubview(noInternetLabel)
+        noInternetLabel.snp.makeConstraints { make in
+            make.top.equalTo(quizNameLabel.snp.bottom).offset(10)
+            make.width.equalToSuperview()
+            make.height.equalTo(40)
         }
         
         //emailtextfield
+        view.addSubview(emailTextField)
         emailTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(noInternetLabel.snp.bottom).offset(70)
+            make.centerX.equalTo(view)
             make.size.equalTo(CGSize(width: 250, height: 40))
         }
+        emailTextField.transform = emailTextField.transform.translatedBy(x: 0, y: 0)
+        
         
         //passwordTextField
+        view.addSubview(passwordTextField)
         passwordTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(emailTextField.snp.bottom).offset(20)
+            make.centerX.equalTo(view)
             make.size.equalTo(CGSize(width: 250, height: 40))
         }
+        passwordTextField.transform = emailTextField.transform.translatedBy(x: 0, y: 0)
+        
         
         //loginbutton
+        view.addSubview(loginButton)
         loginButton.snp.makeConstraints { (make) in
+            make.top.equalTo(passwordTextField.snp.bottom).offset(20)
+            make.centerX.equalTo(view)
             make.size.equalTo(CGSize(width: 250, height: 40))
         }
+        loginButton.transform = emailTextField.transform.translatedBy(x: 0, y: 0)
     }
     
 }

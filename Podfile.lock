@@ -1,20 +1,28 @@
 PODS:
+  - PureLayout (3.1.8)
   - Reachability (3.2)
+  - SAConfettiView (0.1.8)
   - SnapKit (4.2.0)
 
 DEPENDENCIES:
+  - PureLayout
   - Reachability (~> 3.2)
+  - SAConfettiView
   - SnapKit (~> 4.0)
 
 SPEC REPOS:
   trunk:
+    - PureLayout
     - Reachability
+    - SAConfettiView
     - SnapKit
 
 SPEC CHECKSUMS:
+  PureLayout: a4afb3d79dd958564ce33d22c89f407280d8e6a8
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  SAConfettiView: c87031a2280659261b730fce3669fb10e73636ee
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
 
-PODFILE CHECKSUM: a6ae51d74a718858c9bfe5f1452d302e27723b99
+PODFILE CHECKSUM: db644e6271e5320871252ef3a4bf0b6fa786ece9
 
 COCOAPODS: 1.10.1

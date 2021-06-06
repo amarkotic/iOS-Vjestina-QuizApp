@@ -7,15 +7,19 @@
 
 import UIKit
 
+
 class LeaderboardViewController: UIViewController, LeaderboardProtocol {
     
     let leaderboardLabel: UILabel = UILabel()
     let exitButton = UIButton()
     var tableView = UITableView.init(frame: CGRect.zero, style: .grouped)
     var list = [LeaderboardResult]()
-    private let leaderboardPresenter = LeaderboardPresenter(networking: NetworkService())
     let defaults = UserDefaults()
     let loadingImage = UIImageView()
+    
+    private let leaderboardPresenter = LeaderboardPresenter(networking: NetworkService())
+    
+
     
     
     private var router: AppRouter!
@@ -26,8 +30,11 @@ class LeaderboardViewController: UIViewController, LeaderboardProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        
         leaderboardPresenter.fetchLeaderboard()
         leaderboardPresenter.setLeaderboardViewDelegate(leaderboardViewDelegate: self)
+        
         tableView.register(LeaderboardHeaderView.self, forHeaderFooterViewReuseIdentifier: "header")
         //UI
         buildViews()
@@ -36,6 +43,18 @@ class LeaderboardViewController: UIViewController, LeaderboardProtocol {
         exitButton.addTarget(self, action: #selector(exitButtonPressed), for: .touchUpInside)
     }
     
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        UIView.animate(withDuration: 2,
+                       delay: 0,
+                       options: .curveLinear,
+                       animations:{
+                        self.loadingImage.transform = self.loadingImage.transform.rotated(by: 3)
+                       }
+                       )
+    }
     func populateList(recievedList : [LeaderboardResult]){
         list = recievedList
         buildViewsAfterFetch()
@@ -49,11 +68,15 @@ class LeaderboardViewController: UIViewController, LeaderboardProtocol {
 
 
 
+
+
+
 //Table view delegate methods
 extension LeaderboardViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
 }
+
 
 
 
