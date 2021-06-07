@@ -1,34 +1,24 @@
 //
-//  QuizzesViewController.swift
+//  SearchViewController.swift
 //  QuizApp
 //
-//  Created by Antonio Markotic on 14.04.2021..
+//  Created by Antonio Markotic on 01.06.2021..
 //
 
 import UIKit
-import SnapKit
-import Reachability
 
-class QuizzesViewController: UIViewController, QuizzesViewProtocol {
-    
-    
-    //fiksni dio
-    let quizNameLabel: UILabel = UILabel()
 
+class SearchViewController: UIViewController, SearchViewProtocol{
     
-    //fun fact stack
-    let funFactStack  = UIStackView()
-    let bulbStackView = UIStackView()
-    var bulbImage = UIImage()
-    let bulbImageView = UIImageView()
-    let funFactLabel = UILabel()
-    let funFactDescription: UILabel = UILabel()
+    //search stack
+    var searchStack = UIStackView()
+    var inputTextField = UITextField()
+    var searchButton = UIButton()
     
-    var tableView : UITableView!
+    var tableView = UITableView()
     
     //array kvizova
     var quizzArray :[Quiz] = []
-    
     
     //array kategorija
     var uniqueSectionArray = [QuizCategory]()
@@ -36,19 +26,13 @@ class QuizzesViewController: UIViewController, QuizzesViewProtocol {
     //2-d matrica popunjena s kvizovima sortiranim prema kategorijama
     var matrix = [[Quiz]]()
     var colorOfCategory =  [UIColor]()
+    
     var firstLoad = false
-    
-    private var gradientLayer:CAGradientLayer!
-  
-    let reachability = try! Reachability()
-    var internetConnection = false
-    
-    
-    let nService = NetworkService()
-    private let quizzesViewPresenter = QuizzesViewPresenter(networking: NetworkService())
 
     
-    
+    let nService = NetworkService()
+    private let searchViewPresenter = SearchViewPresenter(networking: NetworkService())
+
     private var router: AppRouter!
     convenience init(router: AppRouter) {
         self.init()
@@ -59,76 +43,76 @@ class QuizzesViewController: UIViewController, QuizzesViewProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        quizzesViewPresenter.setquizzesViewDelegate(quizzesViewDelegate: self)
-        
+        searchViewPresenter.setSearchViewDelegate(searchViewDelegate: self)
         
         //UI
-        buildViews()
+       buildViews()
         
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        checkInternetConnection()
-        quizzesViewPresenter.fetchQuizzes(with: internetConnection)
-//        tableView.isHidden = true
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.navigationController?.navigationBar.isHidden = true
-    }
-    
-    
-    
-    func checkInternetConnection(){
+        //skrivanje tipkovnice i odznačivanje textfieldova
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(uiViewPressed))
+        view.addGestureRecognizer(tap)
         
-        if reachability.isReachable{
-            internetConnection = true
-        }else{
-            internetConnection = false
-        }
-        do {
-            try reachability.startNotifier()
-        } catch {
-            print("Unable to start notifier")
-        }
+        //funkcionalnost
+        searchButton.addTarget(self, action: #selector(searchButtonPressed), for: .touchUpInside)
+        inputTextField.addTarget(self, action: #selector(didTapEmailTextField), for: .editingDidBegin)
     }
-
-
     
+    
+    
+    
+    
+    
+    @objc func searchButtonPressed(){
+        matrix.removeAll()
+       
+        inputTextField.layer.borderWidth = 0
+        tableView.isHidden = true
+        
+        searchViewPresenter.fetchQuizzesFromCD(with: inputTextField.text! )
+        tableView.reloadData()
+    }
+    
+    @objc private func didTapEmailTextField(){
+        inputTextField.layer.borderWidth = 1
+        inputTextField.layer.borderColor = UIColor.white.cgColor
+       
+    }
+    //odznači inputTextField
+    @objc private func uiViewPressed(){
+        view.endEditing(true)
+        inputTextField.layer.borderWidth = 0
+       
+    }
     
     func fetchSuccessful(matrix: [[Quiz]], uniqueSectionArray: [QuizCategory], quizzArray: [Quiz]){
+        
         self.matrix = matrix
         self.uniqueSectionArray = uniqueSectionArray
         self.quizzArray = quizzArray
         firstLoad = true
 
         tableView.reloadData()
-//        tableView.isHidden = false
-        funFactDescription.text = String(format: "%@ %d %@", "There are", quizzArray.flatMap{$0.questions}.filter{$0.question.contains("NBA")}.count, "questions that contain the word NBA")
-   
+        tableView.isHidden = false
         
         for j in 0..<uniqueSectionArray.count{
             
-            let  col = UIColor()
+            let col = UIColor()
             colorOfCategory.append(col)
             colorOfCategory[j] = UIColor(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1), alpha: 1.0)
         }
         
     }
     
-
-    
 }
 
 
 
-//Table view Delegate methods
-extension QuizzesViewController: UITableViewDelegate{
+
+
+extension SearchViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
         //prikazi kviz
         router.showQuiz(quiz: matrix[indexPath.section][indexPath.row])
         
@@ -136,9 +120,13 @@ extension QuizzesViewController: UITableViewDelegate{
 }
 
 
-//Table view Data Source methods
-extension QuizzesViewController: UITableViewDataSource{
-    
+
+
+
+
+
+
+extension SearchViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.text = "      \(uniqueSectionArray[section].rawValue)"
@@ -150,6 +138,7 @@ extension QuizzesViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return matrix.count
@@ -168,4 +157,6 @@ extension QuizzesViewController: UITableViewDataSource{
         cell.set(quiz:quiz, color: colorOfCategory[indexPath.section])
         return cell
     }
+    
+    
 }

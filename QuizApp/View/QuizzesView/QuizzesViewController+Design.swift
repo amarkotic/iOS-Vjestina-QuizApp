@@ -11,17 +11,13 @@ import SnapKit
 extension QuizzesViewController{
     
     //DESIGN
-    func buildViewsBeforeFetch() {
-        styleViewsBeforeFetch()
-        defineLayoutForViewsBeforeFetch()
-    }
+    func buildViews() {
+        
+        defineLayoutForViews()
+        styleViews()
+        }
 
-    func buildViewsAfterFetch(){
-        defineLayoutForViewsAfterFetch()
-        styleViewsAfterFetch()
-       
-    }
-    func styleViewsBeforeFetch(){
+    func styleViews(){
         view.backgroundColor = .purple
         self.navigationController?.navigationBar.isHidden = true
         
@@ -30,65 +26,8 @@ extension QuizzesViewController{
         quizNameLabel.font = UIFont(name: "Futura", size: 30)
         quizNameLabel.textAlignment = NSTextAlignment.center
         
-        //quizButton
-        getQuizzButton.setTitle("Get Quizz", for: .normal)
-        getQuizzButton.backgroundColor = UIColor(white: 1, alpha: 1)
-        getQuizzButton.setTitleColor(.purple, for: .normal)
-        getQuizzButton.layer.cornerRadius = 20
         
-        
-        //error stack
-        errorStack.distribution  = UIStackView.Distribution.fillProportionally
-        errorStack.alignment = UIStackView.Alignment.center
-        errorStack.spacing   = 0.0
-        errorStack.axis = NSLayoutConstraint.Axis.vertical
-        
-        //četiri elementa errorstackview-a
-        errorImageView.image = UIImage(named: "error")
-        errorImageView.contentMode = .scaleAspectFit
-        errorTitle.text = "Error\n"
-        errorTitle.font = UIFont.boldSystemFont(ofSize: 27)
-        errorDescription1.text = "Data can't be reached."
-        errorDescription2.text = "Please try again"
-        
-        //dodaj elemente u stackView
-        errorStack.addArrangedSubview(errorImageView)
-        errorStack.addArrangedSubview(errorTitle)
-        errorStack.addArrangedSubview(errorDescription1)
-        errorStack.addArrangedSubview(errorDescription2)
-    }
-    
-    
-    func defineLayoutForViewsBeforeFetch(){
-        //popQuizLabel
-        view.addSubview(quizNameLabel)
-        quizNameLabel.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: 200, height: 100))
-            make.top.equalTo(view).offset(20)
-            make.centerX.equalTo(view)
-        }
-        
-        //getquizbutton
-        view.addSubview(getQuizzButton)
-        getQuizzButton.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: view.frame.width * 0.8, height: 40))
-            make.top.equalTo(quizNameLabel.snp.bottom).offset(0)
-            make.centerX.equalTo(view)
-        }
-        
-        //errorstack
-        view.addSubview(errorStack)
-        errorStack.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: view.frame.width * 0.8, height: view.frame.height * 0.35))
-            make.centerX.centerY.equalTo(view)
-            
-        }
-    }
-    
-    
-    
-    func styleViewsAfterFetch(){
-        //funfact stack
+        //fun stack
         funFactStack.distribution  = UIStackView.Distribution.equalSpacing
         funFactStack.alignment = UIStackView.Alignment.leading
         funFactStack.spacing   = 15.0
@@ -117,10 +56,8 @@ extension QuizzesViewController{
         funFactStack.addArrangedSubview(bulbStackView)
         funFactStack.addArrangedSubview(funFactDescription)
         
-        funFactStack.isHidden = true
-        
-        
-        
+
+        //tableView
         tableView.backgroundColor = .purple
         tableView.register(TableViewCell.self, forCellReuseIdentifier: "QuizzCell")
         tableView.delegate = self
@@ -129,16 +66,21 @@ extension QuizzesViewController{
         tableView.rowHeight = 180
         tableView.bounces = true
         
-        tableView.isHidden = true
-        
-        
     }
-    func defineLayoutForViewsAfterFetch(){
+    func defineLayoutForViews(){
+        //quizNameLabel
+        view.addSubview(quizNameLabel)
+        quizNameLabel.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize(width: 200, height: 100))
+            make.top.equalTo(view).offset(20)
+            make.centerX.equalTo(view)
+        }
+        
         //fun fact stack ispod kojeg dolaze kvizovi
         view.addSubview(funFactStack)
         funFactStack.snp.makeConstraints { (make) in
             make.centerX.equalTo(view)
-            make.top.equalTo(getQuizzButton.snp.bottom).offset(30)
+            make.top.equalTo(quizNameLabel.snp.bottom).offset(30)
         }
         
         view.addSubview(bulbImageView)
@@ -146,8 +88,9 @@ extension QuizzesViewController{
             make.size.equalTo(CGSize(width: 30, height: 30))
         }
         
+
+        tableView = UITableView(frame: CGRect(x: 0, y: 230, width: view.bounds.width, height: view.bounds.height-230), style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView = UITableView(frame: CGRect(x: 0, y: 280, width: view.bounds.width, height: view.bounds.height-280))
     }
-    
+
 }
