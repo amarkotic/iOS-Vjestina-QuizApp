@@ -24,7 +24,7 @@ class QuizzesViewController: UIViewController, QuizzesViewProtocol {
     let funFactLabel = UILabel()
     let funFactDescription: UILabel = UILabel()
     
-    var tableView = UITableView.init(frame: CGRect.zero, style: .grouped)
+    var tableView : UITableView!
     
     //array kvizova
     var quizzArray :[Quiz] = []

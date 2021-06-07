@@ -88,8 +88,9 @@ extension QuizzesViewController{
             make.size.equalTo(CGSize(width: 30, height: 30))
         }
         
+
+        tableView = UITableView(frame: CGRect(x: 0, y: 230, width: view.bounds.width, height: view.bounds.height-230), style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView = UITableView(frame: CGRect(x: 0, y: 230, width: view.bounds.width, height: view.bounds.height-230))
     }
 
 }
